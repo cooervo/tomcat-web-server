@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href='http://fonts.googleapis.com/css?family=Bree+Serif'
+	rel='stylesheet' type='text/css'>
+<link href="styles.css" rel="stylesheet" type="text/css">
+<meta charset="UTF-8">
+<title>Tomcat for JSP and Servlet's</title>
+</head>
+<body>
+
+	<div id="intro">
+
+		<div class="title-div">
+			<h1>Setting up an Apache Tomcat web server with Linux</h1>
+		</div>
+
+
+		<div id="p-container">
+			<p>Tomcat is one of many ways to create a webserver for your Java
+				EE web apps relying on JSP & Servlets.</p>
+
+			<p>For this tutorial we're going to use a Raspberry Pi as the
+				Linux host machine. A Raspberry Pi is a microcomputer which can use
+				any Linux distribution as it's OS, but for this tutorial any Linux
+				distribution can be used.</p>
+
+			<img src="images/r-pi.jpeg">
+
+			<p>We are going to connect remotely to the R-Pi as a headless
+				machine using the secure shell protocol (SSH). You just need to
+				connect your R-Pi to a router, open the terminal window and get its
+				local IP through:</p>
+
+			<div class="code-div">
+				<code>hostname -I </code>
+			</div>
+			<p>Access remotely with the ssh command:</p>
+
+			<div class="code-div">
+				<code>ssh remote@&lt;ip-number&gt;</code>
+			</div>
+
+			<p>Type remote login and password</p>
+
+		</div>
+
+	</div>
+
+	<div class="step1">
+
+		<div class="title-div">
+			<h1>Downloading and installing Tomcat</h1>
+		</div>
+
+		<img src="images/logo-apache-tomcat.png">
+
+		<div id="p-container">
+			<p>To install tomcat you need to type in the command line
+				interface the following, replace the X's with the version of Tomcat
+				you're trying to install:</p>
+
+			<div class="code-div">
+				<code>wget
+					http://mirrors.axint.net/apache/tomcat/tomcat-X/vX.0.XX/bin/apache-tomcat-X.X.XX.tar.gz
+				</code>
+			</div>
+
+			<p>Then you need to extract the file with, remember to replace
+				the X's with the tomcat version you want to install:</p>
+			<div class="code-div">
+				<code> tar xzf apache-tomcat-X.X.XX.tar.gz </code>
+			</div>
+
+			<p>Change dir with cd to where tomcat users autorization file is
+			</p>
+			<div class="code-div">
+				<code>cd apache-tomcat-X.X.XX/conf</code>
+			</div>
+
+			<p>Now we must add autorization to the user in the
+				tomcat-users.xml file. I'm going to use nano text editor but you can
+				use vim or any other text editor you like</p>
+			<div class="code-div">
+				<code>nano tomcat-users.xml</code>
+			</div>
+
+			<p>Add you user to the authorization file, directly below
+				&lt;tomcat-users&gt; add:</p>
+			<div class="code-div">
+				<code>&lt;user username="system" password="raspberry"
+					roles="manager-gui"/&gt;</code>
+			</div>
+
+
+		</div>
+	</div>
+
+	<div class="step2">
+
+		<div class="title-div">
+			<h1>Start up Tomcat</h1>
+		</div>
+
+		<div id="p-container">
+			<p>Now go to Tomcat binaries dir:</p>
+
+			<div class="code-div">
+				<code> cd ../bin </code>
+			</div>
+
+			<p>Now type the command to startup Tomcat</p>
+			<div class="code-div">
+				<code>sudo sh startup.sh</code>
+			</div>
+
+			<p>Now you should be able to use Tomcat, go to your browser and
+				type:</p>
+			<div class="code-div">
+				<code>http://&lt;your-ip&gt;:8080/</code>
+			</div>
+
+			<p>If you see the following in your browser it means your tomcat
+				server is working!!!</p>
+			<img src="images/success.png">
+
+		</div>
+	</div>
+
+	<div>
+
+		<div class="title-div">
+			<h1>Understanding Tomcat directory structure</h1>
+		</div>
+
+		<div id="p-container">
+			<p>Tomcat's subdirs are organized in the following way:</p>
+			<ul>
+				<li>bin: Files for working with Tomcat such as startup and
+					shutdown batch file</li>
+				<li>conf: Files for configuring Tomcat such as server.xml,
+					context.xml and web.xml</li>
+				<li>lib: JAR file that contain classes that are available to
+					all web apps or that we need to make available for our web apps.</li>
+				<li>logs: Log files</li>
+				<li>temp: Temporary files used by the JVM</li>
+				<li>webapps: The dirs and source code files for the webapps</li>
+				<li>work: The source code and class files for the servlets that
+					Tomcat generates for the JSPs.</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="step3">
+
+		<div class="title-div">
+			<h1>Deploying web apps in Tomcat from the Command Line</h1>
+		</div>
+
+		<div id="p-container">
+			<p>You can move your WAR (Web Application Archive file) to
+				Tomcat's webapps sub directory and there leave the WAR file, Tomcat
+				will automatically extract it's contents and use them for the
+				webapplication</p>
+			<p>You can create a WAR file from the command line. First fo to
+				the dir with the source files you want to compress into a WAR file,
+				then type:</p>
+
+			<div class="code-div">
+				<code> jar -cvf example.war * </code>
+			</div>
+
+			<h2>WAR file Standard Directory Layout</h2>
+
+			<p>The following is the recommended struture for a WAR file this
+				are the files and sub directories that should go in the root folder
+				of the WAR:</p>
+
+			<p>*.html, *.jsp, etc. - The HTML and JSP pages, along with other
+				files that must be visible to the client browser (such as
+				JavaScript, stylesheet files, and images) for your application. In
+				larger applications you may choose to divide these files into a
+				subdirectory hierarchy, but for smaller apps, it is generally much
+				simpler to maintain only a single directory for these files.</p>
+
+			<p>/WEB-INF - This dir must contain a fine named web.xml. this
+				file can be used to configure the servlets and other components that
+				make up the application. In addition, this dir is not directly
+				accesible from the web.</p>
+
+
+			<p>/WEB-INF/web.xml - The Web Application Deployment Descriptor
+				for your application. This is an XML file describing the servlets
+				and other components that make up your application, along with any
+				initialization parameters and container-managed security constraints
+				that you want the server to enforce for you. This file is discussed
+				in more detail in the following subsection.</p>
+
+			<p>/WEB-INF/classes/ - This directory contains any Java class
+				files (and associated resources) required for your application,
+				Servlet Classes and non-servlet classes, that are not combined into
+				JAR files. If your classes are organized into Java packages, you
+				must reflect this in the directory hierarchy under
+				/WEB-INF/classes/. For example, a Java class named
+				com.mycompany.mypackage.MyServlet would need to be stored in a file
+				named /WEB-INF/classes/com/mycompany/mypackage/MyServlet.class.</p>
+
+			<p>/WEB-INF/lib/ - This directory contains JAR files that contain
+				Java class files (and associated resources) required for your
+				application, such as third party class libraries or JDBC drivers.</p>
+
+			<p>/META-INF - This dir contains the context.xml.file. Which can
+				be used to configure the web app context.</p>
+
+
+		</div>
+	</div>
+
+	<div class="step2">
+
+		<div class="title-div">
+			<h1>Making web server accesible to the world</h1>
+		</div>
+
+		<div id="p-container">
+			<p>Now that you got Tomcat installed and understand it better, we
+				can change Tomcat to work with port 80 instead of port 8080 this
+				will save some typing when accesing the web apps in the server.</p>
+
+			<p>Change ports used by Tomcat in server.xml at:</p>
+
+
+			<div class="code-div">
+				<code>cd tomcat/work/server.xml</code>
+			</div>
+
+			<p>Now change all instances of port 8080 to port 80</p>
+
+			<p>Now you should be able to access sample file without typing
+				port 8080, go to you browser and type:</p>
+			<div class="code-div">
+				<code>http://&lt;your-ip&gt;:80/</code>
+			</div>
+
+			<p>This is the same as typing in your browser without :80 part:</p>
+			<div class="code-div">
+				<code>http://&lt;your-ip&gt;/</code>
+			</div>
+
+			<p>Once again you should be able to see Tomcat's standard page:</p>
+			<img src="images/success.png">
+			<p>The final 2 steps you should access your router configure port
+				forwarding into letting port 80 request access your server and
+				finally disabling your firewalls</p>
+			<p>This last 2 steps are dependent of your routers brand so make
+				a google search for this part</p>
+
+			<p>Congratulations!!! Now your home webserver with a Raspberry Pi
+				is ready to be accesed from any part of the world</p>
+		</div>
+	</div>
+
+
+</body>
+</html>
