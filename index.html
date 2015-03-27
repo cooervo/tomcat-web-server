@@ -17,8 +17,8 @@
 
 
 		<div id="p-container">
-			<p>Tomcat is one of many ways to create a webserver for your Java
-				EE web apps relying on JSP & Servlets.</p>
+			<p>Tomcat is the most popular server for Java web apps. It uses a
+				web server named Coyote and a servlet/JSP engine called Catalina</p>
 
 			<p>For this tutorial we're going to use a Raspberry Pi as the
 				Linux host machine. A Raspberry Pi is a microcomputer which can use
@@ -57,8 +57,8 @@
 
 		<div id="p-container">
 			<p>To install tomcat you need to type in the command line
-				interface the following, replace the X's with the version of Tomcat
-				you're trying to install:</p>
+				interface the following (replace the X's with the version of Tomcat
+				you're trying to install):</p>
 
 			<div class="code-div">
 				<code>wget
@@ -66,14 +66,13 @@
 				</code>
 			</div>
 
-			<p>Then you need to extract the file with, remember to replace
-				the X's with the tomcat version you want to install:</p>
+			<p>Then you need to extract the file with the tar program:</p>
 			<div class="code-div">
 				<code> tar xzf apache-tomcat-X.X.XX.tar.gz </code>
 			</div>
 
-			<p>Change dir with cd to where tomcat users autorization file is
-			</p>
+			<p>Change your current dir with command cd to where tomcat users
+				autorization file is, it should be at /conf/:</p>
 			<div class="code-div">
 				<code>cd apache-tomcat-X.X.XX/conf</code>
 			</div>
@@ -136,17 +135,19 @@
 		<div id="p-container">
 			<p>Tomcat's subdirs are organized in the following way:</p>
 			<ul>
-				<li>bin: Files for working with Tomcat such as startup and
-					shutdown batch file</li>
-				<li>conf: Files for configuring Tomcat such as server.xml,
-					context.xml and web.xml</li>
-				<li>lib: JAR file that contain classes that are available to
-					all web apps or that we need to make available for our web apps.</li>
-				<li>logs: Log files</li>
-				<li>temp: Temporary files used by the JVM</li>
-				<li>webapps: The dirs and source code files for the webapps</li>
-				<li>work: The source code and class files for the servlets that
-					Tomcat generates for the JSPs.</li>
+				<li><b>bin:</b> Files for working with Tomcat such as startup
+					and shutdown batch file</li>
+				<li><b>conf:</b> Files for configuring Tomcat such as
+					server.xml, context.xml and web.xml</li>
+				<li><b>lib:</b> JAR file that contain classes that are
+					available to all web apps or that we need to make available for our
+					web apps.</li>
+				<li><b>logs:</b> Log files</li>
+				<li><b>temp:</b> Temporary files used by the JVM</li>
+				<li><b>webapps:</b> The dirs and source code files for the
+					webapps</li>
+				<li><b>work:</b> The source code and class files for the
+					servlets that Tomcat generates for the JSPs.</li>
 			</ul>
 		</div>
 	</div>
@@ -159,16 +160,19 @@
 
 		<div id="p-container">
 			<p>You can move your WAR (Web Application Archive file) to
-				Tomcat's webapps sub directory and there leave the WAR file, Tomcat
+				Tomcat's webapps sub directory and leave there the WAR file, Tomcat
 				will automatically extract it's contents and use them for the
 				webapplication</p>
-			<p>You can create a WAR file from the command line. First fo to
-				the dir with the source files you want to compress into a WAR file,
-				then type:</p>
+			<p>You can create a WAR file from the command line. First change
+				to the directory with the source files you want to compress into a
+				WAR file, then type:</p>
 
 			<div class="code-div">
 				<code> jar -cvf example.war * </code>
 			</div>
+
+			<p>Now you have your WAR file ready. Let's review the recommended
+				WAR file directory structure</p>
 
 			<h2>WAR file Standard Directory Layout</h2>
 
@@ -219,7 +223,7 @@
 	<div class="step2">
 
 		<div class="title-div">
-			<h1>Making web server accesible to the world</h1>
+			<h1>Making your web server accesible to the world</h1>
 		</div>
 
 		<div id="p-container">
